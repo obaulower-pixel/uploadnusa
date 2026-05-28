@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bukti Transaksi - NusaStore</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/receipt.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="main-header receipt-header">
+            <div class="header-left">
+                <button class="icon-btn back-btn" onclick="goToPage('history.html')"><i class="fas fa-arrow-left"></i></button>
+                <div class="logo-container">
+                    <span class="logo-name">Bukti Transaksi</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Receipt Container -->
+        <section class="receipt-section">
+            <div id="receiptCard" class="receipt-card">
+                <!-- Receipt Header -->
+                <div class="receipt-header">
+                    <div class="receipt-logo">
+                        <i class="fas fa-store"></i>
+                        <span>NusaStore</span>
+                    </div>
+                    <div class="receipt-type">
+                        <i class="fas fa-receipt"></i>
+                        <span>BUKTI PEMBAYARAN</span>
+                    </div>
+                </div>
+
+                <!-- Receipt Status -->
+                <div class="receipt-status" id="receiptStatus">
+                    <i class="fas fa-clock"></i>
+                    <span>MENUNGGU VERIFIKASI</span>
+                </div>
+
+                <!-- Product Image -->
+                <div class="receipt-product-image">
+                    <div class="product-img-container">
+                        <img src="" alt="" id="receiptProductImg" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-shopping-bag\'></i>'">
+                    </div>
+                    <h3 id="receiptProductName">-</h3>
+                </div>
+
+                <!-- Receipt Details -->
+                <div class="receipt-details">
+                    <div class="receipt-row">
+                        <span class="receipt-label">ID Transaksi</span>
+                        <span class="receipt-value" id="trxId">-</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Tanggal</span>
+                        <span class="receipt-value" id="trxDate">-</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Produk</span>
+                        <span class="receipt-value" id="trxProduct">-</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Username Game</span>
+                        <span class="receipt-value" id="trxUsername">-</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Email</span>
+                        <span class="receipt-value" id="trxEmail">-</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">WhatsApp</span>
+                        <span class="receipt-value" id="trxPhone">-</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Jumlah</span>
+                        <span class="receipt-value" id="trxQty">-</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">Metode Bayar</span>
+                        <span class="receipt-value" id="trxPayment">-</span>
+                    </div>
+                </div>
+
+                <!-- Receipt Divider -->
+                <div class="receipt-divider">
+                    <span></span><i class="fas fa-cut"></i><span></span>
+                </div>
+
+                <!-- Receipt Total -->
+                <div class="receipt-total">
+                    <div class="total-row">
+                        <span>Total Pembayaran</span>
+                        <span id="trxTotal">Rp 0</span>
+                    </div>
+                </div>
+
+                <!-- Receipt Footer -->
+                <div class="receipt-footer">
+                    <div class="receipt-barcode">
+                        <div class="barcode-lines">
+                            <div></div><div></div><div></div><div></div><div></div>
+                            <div></div><div></div><div></div><div></div><div></div>
+                            <div></div><div></div><div></div><div></div><div></div>
+                        </div>
+                        <span class="barcode-text" id="barcodeText">-</span>
+                    </div>
+                    <p class="receipt-thanks">Terima kasih telah berbelanja di NusaStore</p>
+                    <p class="receipt-contact">support@nusastore.id | www.nusastore.id</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Download Button -->
+        <section class="download-receipt-section">
+            <button class="download-receipt-btn" onclick="downloadReceipt()">
+                <i class="fas fa-download"></i> Download Bukti Transaksi
+            </button>
+            <button class="share-btn" onclick="shareReceipt()">
+                <i class="fas fa-share-alt"></i> Bagikan
+            </button>
+        </section>
+
+        <!-- Bottom Spacer -->
+        <div style="height: 40px;"></div>
+
+        <!-- Toast -->
+        <div id="toast" class="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMsg">Berhasil!</span>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        let currentTransaction = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTransaction();
+        });
+
+        function loadTransaction() {
+            const trxData = localStorage.getItem('nusa_receipt_transaction');
+            if (!trxData) {
+                showToast('Data transaksi tidak ditemukan');
+                setTimeout(() => history.back(), 1500);
+                return;
+            }
+
+            currentTransaction = JSON.parse(trxData);
+            const t = currentTransaction;
+
+            document.getElementById('trxId').textContent = t.id;
+            document.getElementById('trxDate').textContent = formatDateFull(t.date);
+            document.getElementById('trxProduct').textContent = t.product.name;
+            document.getElementById('trxUsername').textContent = t.username || '-';
+            document.getElementById('trxEmail').textContent = t.email || '-';
+            document.getElementById('trxPhone').textContent = t.phone || '-';
+            document.getElementById('trxQty').textContent = (t.quantity || 1) + 'x';
+            document.getElementById('trxPayment').textContent = (t.paymentMethod || 'QRIS').toUpperCase();
+            document.getElementById('trxTotal').textContent = 'Rp ' + formatPrice(t.total);
+            document.getElementById('barcodeText').textContent = t.id;
+
+            // Set product image
+            const productImg = document.getElementById('receiptProductImg');
+            const productName = document.getElementById('receiptProductName');
+            if (t.product.image) {
+                productImg.src = t.product.image;
+            }
+            productName.textContent = t.product.name;
+
+            // Status styling
+            const statusEl = document.getElementById('receiptStatus');
+            if (t.status === 'completed') {
+                statusEl.className = 'receipt-status completed';
+                statusEl.innerHTML = '<i class="fas fa-check-circle"></i><span>PEMBAYARAN BERHASIL</span>';
+            } else if (t.status === 'rejected') {
+                statusEl.className = 'receipt-status rejected';
+                statusEl.innerHTML = '<i class="fas fa-times-circle"></i><span>TRANSAKSI DITOLAK</span>';
+            }
+        }
+
+        function formatDateFull(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                weekday: 'long',
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        function downloadReceipt() {
+            const receipt = document.getElementById('receiptCard');
+
+            html2canvas(receipt, {
+                scale: 2,
+                backgroundColor: '#ffffff',
+                logging: false
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'nusastore-receipt-' + currentTransaction.id + '.png';
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast('Bukti transaksi berhasil diunduh!');
+            }).catch(err => {
+                showToast('Gagal mengunduh, coba lagi');
+                console.error(err);
+            });
+        }
+
+        function shareReceipt() {
+            const text = `Bukti Transaksi NusaStore\n\nID: ${currentTransaction.id}\nProduk: ${currentTransaction.product.name}\nTotal: Rp ${formatPrice(currentTransaction.total)}\nStatus: ${currentTransaction.status === 'completed' ? 'Berhasil' : 'Pending'}\n\nTerima kasih telah berbelanja di NusaStore!`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Bukti Transaksi NusaStore',
+                    text: text
+                }).catch(() => {
+                    copyToClipboard(text);
+                });
+            } else {
+                copyToClipboard(text);
+            }
+        }
+
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast('Teks berhasil disalin!');
+        }
+    </script>
+</body>
+</html>

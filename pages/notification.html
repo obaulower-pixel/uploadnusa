@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Notifikasi - NusaStore</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/notification.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="main-header notif-header">
+            <div class="header-left">
+                <button class="icon-btn back-btn" onclick="goToPage('../index.html')"><i class="fas fa-arrow-left"></i></button>
+                <div class="logo-container">
+                    <div class="logo-icon"><i class="fas fa-bell"></i></div>
+                    <span class="logo-name">Notifikasi</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn" onclick="markAllRead()"><i class="fas fa-check-double"></i></button>
+                <button class="icon-btn" onclick="clearAllNotifs()"><i class="fas fa-trash-alt"></i></button>
+            </div>
+        </header>
+
+        <!-- Notif Stats -->
+        <section class="notif-stats">
+            <div class="notif-stat-card">
+                <i class="fas fa-bell"></i>
+                <div class="notif-stat-info">
+                    <span class="notif-stat-num" id="totalNotifs">0</span>
+                    <span class="notif-stat-label">Total</span>
+                </div>
+            </div>
+            <div class="notif-stat-card">
+                <i class="fas fa-envelope"></i>
+                <div class="notif-stat-info">
+                    <span class="notif-stat-num" id="unreadNotifs">0</span>
+                    <span class="notif-stat-label">Belum Dibaca</span>
+                </div>
+            </div>
+            <div class="notif-stat-card">
+                <i class="fas fa-check-circle"></i>
+                <div class="notif-stat-info">
+                    <span class="notif-stat-num" id="readNotifs">0</span>
+                    <span class="notif-stat-label">Sudah Dibaca</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter Tabs -->
+        <section class="notif-filter-section">
+            <div class="notif-filter-tabs">
+                <button class="notif-tab active" data-filter="all"><i class="fas fa-th-large"></i> Semua</button>
+                <button class="notif-tab" data-filter="unread"><i class="fas fa-envelope"></i> Belum Dibaca</button>
+                <button class="notif-tab" data-filter="success"><i class="fas fa-check-circle"></i> Berhasil</button>
+                <button class="notif-tab" data-filter="danger"><i class="fas fa-times-circle"></i> Ditolak</button>
+            </div>
+        </section>
+
+        <!-- Notification List -->
+        <section class="notif-list-section">
+            <div class="notif-list" id="notifList">
+                <!-- Filled by JS -->
+            </div>
+            <div class="empty-state" id="emptyNotif" style="display:none;">
+                <i class="fas fa-bell-slash"></i>
+                <p>Belum ada notifikasi</p>
+                <span class="empty-sub">Notifikasi akan muncul saat ada update transaksi</span>
+            </div>
+        </section>
+
+        <!-- Bottom Spacer -->
+        <div style="height: 40px;"></div>
+
+        <!-- Toast -->
+        <div id="toast" class="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMsg">Berhasil!</span>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        let currentFilter = 'all';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNotifications('all');
+            updateStats();
+            initFilterTabs();
+            NOTIFICATIONS.markAllAsRead();
+            NOTIFICATIONS.renderBadge();
+        });
+
+        function renderNotifications(filter) {
+            const container = document.getElementById('notifList');
+            const emptyState = document.getElementById('emptyNotif');
+            if (!container) return;
+
+            let notifs = NOTIFICATIONS.getNotifications();
+
+            if (filter === 'unread') {
+                notifs = notifs.filter(n => !n.read);
+            } else if (filter === 'success') {
+                notifs = notifs.filter(n => n.type === 'success');
+            } else if (filter === 'danger') {
+                notifs = notifs.filter(n => n.type === 'danger');
+            }
+
+            if (notifs.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            container.innerHTML = notifs.map(notif => `
+                <div class="notif-card ${notif.read ? 'read' : 'unread'}" data-id="${notif.id}" onclick="handleNotifClick('${notif.id}')">
+                    <div class="notif-icon ${notif.type}">
+                        <i class="fas ${getNotifIcon(notif.type)}"></i>
+                    </div>
+                    <div class="notif-content">
+                        <div class="notif-header">
+                            <h4>${notif.title}</h4>
+                            <span class="notif-time">${formatNotifTime(notif.timestamp)}</span>
+                        </div>
+                        <p class="notif-message">${notif.message}</p>
+                        <div class="notif-actions">
+                            ${notif.link ? `<span class="notif-link"><i class="fas fa-external-link-alt"></i> Lihat Detail</span>` : ''}
+                            <button class="notif-delete" onclick="event.stopPropagation(); deleteNotif('${notif.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    ${!notif.read ? '<div class="notif-unread-dot"></div>' : ''}
+                </div>
+            `).join('');
+        }
+
+        function getNotifIcon(type) {
+            switch(type) {
+                case 'success': return 'fa-check-circle';
+                case 'danger': return 'fa-times-circle';
+                case 'warning': return 'fa-exclamation-triangle';
+                case 'info': return 'fa-info-circle';
+                default: return 'fa-bell';
+            }
+        }
+
+        function formatNotifTime(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+
+            if (minutes < 1) return 'Baru saja';
+            if (minutes < 60) return minutes + ' menit lalu';
+            if (hours < 24) return hours + ' jam lalu';
+            if (days < 7) return days + ' hari lalu';
+            return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
+        }
+
+        function handleNotifClick(id) {
+            const notifs = NOTIFICATIONS.getNotifications();
+            const notif = notifs.find(n => n.id === id);
+            if (!notif) return;
+
+            NOTIFICATIONS.markAsRead(id);
+            NOTIFICATIONS.renderBadge();
+            renderNotifications(currentFilter);
+            updateStats();
+
+            if (notif.link) {
+                window.location.href = notif.link;
+            }
+        }
+
+        function deleteNotif(id) {
+            NOTIFICATIONS.deleteNotification(id);
+            renderNotifications(currentFilter);
+            updateStats();
+            NOTIFICATIONS.renderBadge();
+            showToast('Notifikasi dihapus');
+        }
+
+        function markAllRead() {
+            NOTIFICATIONS.markAllAsRead();
+            renderNotifications(currentFilter);
+            updateStats();
+            NOTIFICATIONS.renderBadge();
+            showToast('Semua notifikasi ditandai dibaca');
+        }
+
+        function clearAllNotifs() {
+            if (confirm('Hapus semua notifikasi?')) {
+                NOTIFICATIONS.clearAll();
+                renderNotifications(currentFilter);
+                updateStats();
+                showToast('Semua notifikasi dihapus');
+            }
+        }
+
+        function updateStats() {
+            const notifs = NOTIFICATIONS.getNotifications();
+            document.getElementById('totalNotifs').textContent = notifs.length;
+            document.getElementById('unreadNotifs').textContent = notifs.filter(n => !n.read).length;
+            document.getElementById('readNotifs').textContent = notifs.filter(n => n.read).length;
+        }
+
+        function initFilterTabs() {
+            const tabs = document.querySelectorAll('.notif-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentFilter = tab.dataset.filter;
+                    renderNotifications(currentFilter);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

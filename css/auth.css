@@ -1,0 +1,198 @@
+/* ========================================
+   AUTH PAGES - LOGIN & REGISTER STYLES
+   ======================================== */
+
+.auth-container {
+    padding: 24px 16px;
+    min-height: calc(100vh - 70px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: 32px 24px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow-lg);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.auth-logo {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, var(--gopay-primary), var(--dana-primary));
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 32px;
+    margin: 0 auto 16px;
+    box-shadow: 0 8px 20px rgba(0, 174, 214, 0.3);
+}
+
+.auth-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.auth-header p {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Form Styles */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.form-group label i {
+    color: var(--gopay-primary);
+    font-size: 14px;
+}
+
+.form-group input {
+    padding: 14px 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--text-primary);
+    transition: var(--transition);
+    background: var(--bg);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--gopay-primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(0, 174, 214, 0.1);
+}
+
+.form-group input::placeholder {
+    color: var(--text-light);
+}
+
+.password-input {
+    position: relative;
+}
+
+.password-input input {
+    width: 100%;
+    padding-right: 48px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+}
+
+.toggle-password:hover {
+    color: var(--gopay-primary);
+}
+
+/* Auth Buttons */
+.auth-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 24px;
+    border-radius: var(--radius-lg);
+    border: none;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition);
+    background: linear-gradient(135deg, var(--gopay-primary), var(--dana-primary));
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 174, 214, 0.3);
+}
+
+.auth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 174, 214, 0.4);
+}
+
+.auth-btn:active {
+    transform: translateY(0);
+}
+
+.auth-btn.secondary {
+    background: white;
+    color: var(--gopay-primary);
+    border: 2px solid var(--gopay-primary);
+    box-shadow: none;
+}
+
+.auth-btn.secondary:hover {
+    background: var(--gopay-light);
+}
+
+/* Divider */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 8px 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+.auth-divider span {
+    font-size: 13px;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+    .auth-card {
+        padding: 40px 32px;
+    }
+
+    .auth-header h1 {
+        font-size: 28px;
+    }
+}

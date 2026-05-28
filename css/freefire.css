@@ -1,0 +1,364 @@
+/* ========================================
+   FREE FIRE STORE - GOPAY BLUE THEME
+   ======================================== */
+
+:root {
+    --ff-primary: #00AED6;
+    --ff-dark: #0088A8;
+    --ff-light: #E0F7FA;
+    --ff-accent: #00D4FF;
+}
+
+/* Header */
+.ff-header {
+    background: linear-gradient(135deg, #00AED6 0%, #00D4FF 100%) !important;
+    box-shadow: 0 4px 20px rgba(0, 174, 214, 0.3) !important;
+}
+
+.back-btn {
+    background: rgba(255,255,255,0.15) !important;
+}
+
+/* Game Banner */
+.game-banner-section {
+    padding: 16px;
+}
+
+.game-banner {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    height: 220px;
+    position: relative;
+    box-shadow: var(--shadow-lg);
+}
+
+.ff-banner {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #FF6B6B 100%);
+}
+
+.game-banner-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 24px;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    color: white;
+}
+
+.game-banner-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.game-banner-content h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.game-banner-content p {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 12px;
+}
+
+.game-banner-stats {
+    display: flex;
+    gap: 16px;
+}
+
+.game-banner-stats span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.game-banner-stats i {
+    color: #00E676;
+}
+
+/* Category Filter */
+.category-section {
+    padding: 0 16px;
+    margin-bottom: 20px;
+}
+
+.category-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+}
+
+.category-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.category-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border);
+    background: white;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.category-btn i {
+    font-size: 14px;
+}
+
+.category-btn:hover {
+    border-color: var(--ff-primary);
+    color: var(--ff-primary);
+}
+
+.category-btn.active {
+    background: linear-gradient(135deg, var(--ff-primary), var(--ff-accent));
+    color: white;
+    border-color: var(--ff-primary);
+    box-shadow: 0 4px 15px rgba(0, 174, 214, 0.3);
+}
+
+/* Products */
+.products-section {
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.product-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--ff-primary);
+}
+
+.product-image {
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(135deg, #E0F7FA, #B2EBF2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: var(--ff-primary);
+    position: relative;
+}
+
+.product-tag {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: var(--danger);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.product-details {
+    padding: 12px;
+}
+
+.product-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+
+.product-price {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--ff-primary);
+}
+
+.product-original {
+    font-size: 11px;
+    color: var(--text-light);
+    text-decoration: line-through;
+    margin-left: 4px;
+}
+
+/* Promo Section */
+.promo-section {
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.promo-card {
+    background: linear-gradient(135deg, #FF6B6B, #EE5A24);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: white;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.promo-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.promo-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.promo-content {
+    flex: 1;
+}
+
+.promo-content h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.promo-content p {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.promo-arrow {
+    font-size: 16px;
+    opacity: 0.7;
+}
+
+/* How To Section */
+.how-to-section {
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.how-to-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.how-to-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 20px 16px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    position: relative;
+    transition: var(--transition);
+}
+
+.how-to-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.how-to-num {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, var(--ff-primary), var(--ff-accent));
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    box-shadow: 0 2px 8px rgba(0, 174, 214, 0.3);
+}
+
+.how-to-card i {
+    font-size: 32px;
+    color: var(--ff-primary);
+    margin: 8px 0 12px;
+}
+
+.how-to-card h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.how-to-card p {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+    .how-to-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .game-banner {
+        height: 280px;
+    }
+
+    .game-banner-content h1 {
+        font-size: 36px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mobile Legends Store - NusaStore</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/mobilelegends.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .game-banner {
+            position: relative;
+        }
+        .game-banner::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.2));
+            z-index: 1;
+        }
+        .game-banner-content {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="main-header ml-header">
+            <div class="header-left">
+                <button class="icon-btn back-btn" onclick="goToPage('../index.html')"><i class="fas fa-arrow-left"></i></button>
+                <div class="logo-container">
+                    <div class="logo-icon"><i class="fas fa-chess-knight"></i></div>
+                    <span class="logo-name">MLBB Store</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn cart-btn" onclick="goToPage('history.html')"><i class="fas fa-history"></i></button>
+            </div>
+        </header>
+
+        <!-- Banner -->
+        <section class="game-banner-section">
+            <div class="game-banner ml-banner" style="background-image: url('../assets/images/games/mobilelegends-banner.jpg'); background-size: cover; background-position: center;">
+                <div class="game-banner-content">
+                    <span class="game-banner-tag"><i class="fas fa-star"></i> TERBAIK</span>
+                    <h1>Mobile Legends Top Up</h1>
+                    <p>Diamond, WDP, Starlight & Twilight Pass</p>
+                    <div class="game-banner-stats">
+                        <span><i class="fas fa-check-circle"></i> Proses 1-5 Menit</span>
+                        <span><i class="fas fa-shield-alt"></i> Resmi Moonton</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Filter -->
+        <section class="category-section">
+            <div class="category-scroll">
+                <button class="category-btn active" data-category="all"><i class="fas fa-th-large"></i> Semua</button>
+                <button class="category-btn" data-category="diamond"><i class="fas fa-gem"></i> Diamond</button>
+                <button class="category-btn" data-category="wdp"><i class="fas fa-calendar-week"></i> WDP</button>
+                <button class="category-btn" data-category="pass"><i class="fas fa-ticket-alt"></i> Pass</button>
+            </div>
+        </section>
+
+        <!-- Products -->
+        <section class="products-section">
+            <div class="section-header">
+                <h2><i class="fas fa-chess-knight"></i> Produk Mobile Legends</h2>
+            </div>
+            <div class="products-grid" id="mlProducts">
+                <!-- Filled by JS -->
+            </div>
+        </section>
+
+        <!-- Event Banner -->
+        <section class="event-section">
+            <div class="event-card">
+                <div class="event-bg"></div>
+                <div class="event-content">
+                    <span class="event-label">EVENT TERBARU</span>
+                    <h3>Starlight Member</h3>
+                    <p>Dapatkan skin eksklusif setiap bulan</p>
+                    <button class="event-btn" onclick="buyProduct('ml-9')">Beli Sekarang</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to Order -->
+        <section class="how-to-section">
+            <div class="section-header">
+                <h2><i class="fas fa-question-circle"></i> Cara Pembelian</h2>
+            </div>
+            <div class="how-to-grid">
+                <div class="how-to-card">
+                    <div class="how-to-num">1</div>
+                    <i class="fas fa-mouse-pointer"></i>
+                    <h4>Pilih Produk</h4>
+                    <p>Pilih diamond atau paket lainnya</p>
+                </div>
+                <div class="how-to-card">
+                    <div class="how-to-num">2</div>
+                    <i class="fas fa-id-card"></i>
+                    <h4>ID & Server</h4>
+                    <p>Masukkan ID & Server MLBB</p>
+                </div>
+                <div class="how-to-card">
+                    <div class="how-to-num">3</div>
+                    <i class="fas fa-credit-card"></i>
+                    <h4>Bayar</h4>
+                    <p>Pilih metode pembayaran</p>
+                </div>
+                <div class="how-to-card">
+                    <div class="how-to-num">4</div>
+                    <i class="fas fa-check-circle"></i>
+                    <h4>Selesai</h4>
+                    <p>Diamond masuk otomatis</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Spacer -->
+        <div style="height: 100px;"></div>
+
+        <!-- Bottom Nav -->
+        <nav class="bottom-nav">
+            <a href="../index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="roblox.html" class="nav-item">
+                <i class="fas fa-cube"></i>
+                <span>Roblox</span>
+            </a>
+            <a href="freefire.html" class="nav-item">
+                <i class="fas fa-fire"></i>
+                <span>Free Fire</span>
+            </a>
+            <a href="mobilelegends.html" class="nav-item active">
+                <i class="fas fa-chess-knight"></i>
+                <span>MLBB</span>
+            </a>
+            <a href="history.html" class="nav-item">
+                <i class="fas fa-history"></i>
+                <span>Riwayat</span>
+            </a>
+        </nav>
+
+        <!-- Toast -->
+        <div id="toast" class="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMsg">Berhasil!</span>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/mobilelegends.js"></script>
+</body>
+</html>

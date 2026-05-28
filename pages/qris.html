@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>QRIS Payment - NusaStore</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/qris.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="main-header qris-header">
+            <div class="header-left">
+                <button class="icon-btn back-btn" onclick="history.back()"><i class="fas fa-arrow-left"></i></button>
+                <div class="logo-container">
+                    <span class="logo-name">Pembayaran QRIS</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Timer & Info -->
+        <section class="qris-info-section">
+            <div class="qris-timer">
+                <i class="fas fa-clock"></i>
+                <span>Batas Waktu: <strong id="countdown">15:00</strong></span>
+            </div>
+            <div class="qris-instruction">
+                <i class="fas fa-info-circle"></i>
+                <p>Silakan scan QRIS menggunakan aplikasi e-wallet atau mobile banking Anda</p>
+            </div>
+        </section>
+
+        <!-- QRIS Image -->
+        <section class="qris-image-section">
+            <div class="qris-card">
+                <div class="qris-logo">
+                    <i class="fas fa-qrcode"></i>
+                    <span>QRIS</span>
+                </div>
+                <div class="qris-image-container">
+                    <img src="../assets/qris/qris-payment.jpg" alt="QRIS Payment" id="qrisImage">
+                </div>
+                <div class="qris-amount">
+                    <span class="amount-label">Total Pembayaran</span>
+                    <span class="amount-value" id="qrisAmount">Rp 0</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Download Button -->
+        <section class="download-section">
+            <button class="download-btn" onclick="downloadQRIS()">
+                <i class="fas fa-download"></i> Download QRIS
+            </button>
+        </section>
+
+        <!-- Payment Instructions -->
+        <section class="instructions-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list-ol"></i> Cara Pembayaran</h2>
+            </div>
+            <div class="instruction-list">
+                <div class="instruction-item">
+                    <div class="instruction-num">1</div>
+                    <div class="instruction-content">
+                        <h4>Buka Aplikasi</h4>
+                        <p>Buka aplikasi e-wallet (Dana, GoPay, OVO) atau mobile banking Anda</p>
+                    </div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-num">2</div>
+                    <div class="instruction-content">
+                        <h4>Scan QR</h4>
+                        <p>Pilih menu scan QR dan arahkan kamera ke QRIS di atas</p>
+                    </div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-num">3</div>
+                    <div class="instruction-content">
+                        <h4>Konfirmasi</h4>
+                        <p>Periksa nominal dan konfirmasi pembayaran</p>
+                    </div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-num">4</div>
+                    <div class="instruction-content">
+                        <h4>Selesai</h4>
+                        <p>Pembayaran berhasil! Produk akan otomatis terkirim</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Auto Send Info -->
+        <section class="auto-send-section">
+            <div class="auto-send-card">
+                <i class="fas fa-magic"></i>
+                <div class="auto-send-content">
+                    <h4>Pengiriman Otomatis</h4>
+                    <p>Setelah pembayaran terverifikasi oleh owner, produk akan otomatis dikirim ke akun game Anda</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Spacer -->
+        <div style="height: 40px;"></div>
+
+        <!-- Toast -->
+        <div id="toast" class="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMsg">Berhasil!</span>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        let orderData = null;
+        let countdownInterval;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadOrder();
+            startCountdown();
+            createTransaction();
+        });
+
+        function loadOrder() {
+            const order = localStorage.getItem('nusa_current_order');
+            if (!order) {
+                showToast('Data pesanan tidak ditemukan');
+                setTimeout(() => history.back(), 1500);
+                return;
+            }
+
+            orderData = JSON.parse(order);
+            document.getElementById('qrisAmount').textContent = 'Rp ' + formatPrice(orderData.total);
+        }
+
+        function startCountdown() {
+            let minutes = 15;
+            let seconds = 0;
+
+            countdownInterval = setInterval(() => {
+                if (seconds === 0) {
+                    if (minutes === 0) {
+                        clearInterval(countdownInterval);
+                        document.getElementById('countdown').textContent = 'EXPIRED';
+                        document.getElementById('countdown').style.color = '#FF1744';
+                        return;
+                    }
+                    minutes--;
+                    seconds = 59;
+                } else {
+                    seconds--;
+                }
+
+                document.getElementById('countdown').textContent = 
+                    String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+            }, 1000);
+        }
+
+        function createTransaction() {
+            if (!orderData) return;
+
+            const transaction = {
+                id: 'TRX-' + Date.now(),
+                product: orderData.product,
+                username: orderData.username,
+                email: orderData.email,
+                phone: orderData.phone,
+                quantity: orderData.quantity,
+                total: orderData.total,
+                paymentMethod: orderData.paymentMethod,
+                status: 'pending',
+                date: new Date().toISOString(),
+                verifiedBy: null
+            };
+
+            const history = JSON.parse(localStorage.getItem('nusa_history') || '[]');
+            history.unshift(transaction);
+            localStorage.setItem('nusa_history', JSON.stringify(history));
+            localStorage.setItem('nusa_current_transaction', JSON.stringify(transaction));
+        }
+
+        function downloadQRIS() {
+            const img = document.getElementById('qrisImage');
+            const link = document.createElement('a');
+            link.href = img.src;
+            link.download = 'nusastore-qris-' + Date.now() + '.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('QRIS berhasil diunduh!');
+        }
+    </script>
+</body>
+</html>

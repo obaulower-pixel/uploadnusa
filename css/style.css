@@ -1,0 +1,1206 @@
+/* ========================================
+   NUSASTORE - MAIN STYLESHEET
+   Color Scheme: GoPay Blue + Dana Purple + BRI Blue
+   ======================================== */
+
+:root {
+    /* GoPay Primary Colors */
+    --gopay-primary: #00AED6;
+    --gopay-dark: #0088A8;
+    --gopay-light: #E0F7FA;
+
+    /* Dana Primary Colors */
+    --dana-primary: #6B2D8E;
+    --dana-dark: #4A1F62;
+    --dana-light: #F3E8FF;
+
+    /* BRI Primary Colors */
+    --bri-primary: #0055A4;
+    --bri-dark: #003D75;
+    --bri-light: #E3F2FD;
+
+    /* Universal Colors */
+    --primary: #00AED6;
+    --primary-dark: #0088A8;
+    --secondary: #6B2D8E;
+    --accent: #0055A4;
+
+    --success: #00C853;
+    --warning: #FFAB00;
+    --danger: #FF1744;
+    --info: #2979FF;
+
+    --bg: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --bg-dark: #0F172A;
+
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    --text-light: #94A3B8;
+    --text-white: #FFFFFF;
+
+    --border: #E2E8F0;
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+    --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ========================================
+   APP CONTAINER
+   ======================================== */
+#app {
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--bg);
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 80px;
+}
+
+@media (min-width: 481px) {
+    #app {
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    #app {
+        max-width: 768px;
+    }
+}
+
+@media (min-width: 1024px) {
+    #app {
+        max-width: 1024px;
+    }
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+.main-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: linear-gradient(135deg, var(--gopay-primary) 0%, var(--dana-primary) 100%);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 174, 214, 0.3);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-img {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+}
+
+.logo-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+}
+
+.logo-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.5px;
+}
+
+.header-right {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: var(--transition);
+    font-size: 16px;
+}
+
+.icon-btn:hover {
+    background: rgba(255,255,255,0.25);
+    transform: scale(1.05);
+}
+
+.icon-btn .badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: var(--danger);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--gopay-primary);
+}
+
+/* ========================================
+   SEARCH OVERLAY
+   ======================================== */
+.search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.95);
+    z-index: 200;
+    display: none;
+    flex-direction: column;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.search-overlay.active {
+    display: flex;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+}
+
+.search-box i {
+    color: var(--text-light);
+    font-size: 18px;
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--text-primary);
+}
+
+.search-box button {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.search-results {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255,255,255,0.1);
+    border-radius: var(--radius-md);
+    margin-bottom: 8px;
+    color: white;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.search-result-item:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* ========================================
+   SIDE MENU
+   ======================================== */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    width: 320px;
+    max-width: 85vw;
+    height: 100vh;
+    background: white;
+    z-index: 300;
+    transition: right 0.3s ease;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+    overflow-y: auto;
+}
+
+.side-menu.active {
+    right: 0;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 250;
+    display: none;
+}
+
+.menu-overlay.active {
+    display: block;
+}
+
+.menu-header {
+    background: linear-gradient(135deg, var(--gopay-primary) 0%, var(--dana-primary) 100%);
+    padding: 24px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.user-status {
+    color: rgba(255,255,255,0.8);
+    font-size: 12px;
+}
+
+.close-menu {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.menu-nav {
+    padding: 16px 0;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: var(--transition);
+    border-left: 3px solid transparent;
+}
+
+.menu-item i {
+    width: 24px;
+    text-align: center;
+    color: var(--primary);
+    font-size: 18px;
+}
+
+.menu-item:hover,
+.menu-item.active {
+    background: var(--gopay-light);
+    border-left-color: var(--gopay-primary);
+    color: var(--gopay-primary);
+}
+
+.menu-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 20px;
+}
+
+/* ========================================
+   VIDEO BANNER
+   ======================================== */
+.video-banner-section {
+    padding: 16px;
+}
+
+.video-banner {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    height: 200px;
+    box-shadow: var(--shadow-lg);
+}
+
+.banner-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.banner-slide.active {
+    opacity: 1;
+}
+
+.banner-bg {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding: 24px;
+    position: relative;
+}
+
+.banner-1 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.banner-2 {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.banner-3 {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.banner-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+.banner-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.banner-content h2 {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 4px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.banner-content p {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 12px;
+}
+
+.banner-btn {
+    background: white;
+    color: var(--text-primary);
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--radius-lg);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.banner-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.banner-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.dot.active {
+    width: 24px;
+    border-radius: 4px;
+    background: white;
+}
+
+/* ========================================
+   QUICK STATS
+   ======================================== */
+.quick-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.stat-item {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 16px 12px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.stat-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--gopay-primary), var(--dana-primary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    margin: 0 auto 10px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.stat-label {
+    display: block;
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   GAME SECTION
+   ======================================== */
+.game-section {
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-header h2 i {
+    color: var(--gopay-primary);
+}
+
+.view-all {
+    color: var(--gopay-primary);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.game-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.game-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.game-card:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+}
+
+.game-card:nth-child(1)::before {
+    background: linear-gradient(to bottom, #667eea, #764ba2);
+}
+
+.game-card:nth-child(2)::before {
+    background: linear-gradient(to bottom, #f093fb, #f5576c);
+}
+
+.game-card:nth-child(3)::before {
+    background: linear-gradient(to bottom, #4facfe, #00f2fe);
+}
+
+.game-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.roblox-bg {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.ff-bg {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+}
+
+.ml-bg {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+.game-info {
+    flex: 1;
+}
+
+.game-info h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.game-info p {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.game-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.game-card:nth-child(1) .game-badge {
+    background: #EDE9FE;
+    color: #7C3AED;
+}
+
+.game-card:nth-child(2) .game-badge {
+    background: #FCE7F3;
+    color: #DB2777;
+}
+
+.game-card:nth-child(3) .game-badge {
+    background: #DBEAFE;
+    color: #2563EB;
+}
+
+.game-arrow {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+/* ========================================
+   SCROLLABLE BANNERS
+   ======================================== */
+.scroll-banner-section {
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.scroll-banner-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 -16px;
+    padding: 0 16px;
+}
+
+.scroll-banner-container::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-banner-track {
+    display: flex;
+    gap: 12px;
+    width: max-content;
+}
+
+.scroll-banner-item {
+    width: 280px;
+    flex-shrink: 0;
+}
+
+.scroll-img {
+    width: 100%;
+    height: 140px;
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.banner-img-1 {
+    background: linear-gradient(135deg, #FF6B6B, #EE5A24);
+}
+
+.banner-img-2 {
+    background: linear-gradient(135deg, #00D2D3, #01A3A4);
+}
+
+.banner-img-3 {
+    background: linear-gradient(135deg, #5F27CD, #341F97);
+}
+
+.scroll-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: white;
+}
+
+.scroll-overlay h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.scroll-overlay p {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.scroll-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+}
+
+.scroll-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: var(--transition);
+}
+
+.scroll-dot.active {
+    width: 20px;
+    border-radius: 3px;
+    background: var(--gopay-primary);
+}
+
+/* ========================================
+   PRODUCTS GRID
+   ======================================== */
+.products-section {
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.product-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.product-image {
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(135deg, var(--gopay-light), var(--dana-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: var(--gopay-primary);
+    position: relative;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-tag {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: var(--danger);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.product-details {
+    padding: 12px;
+}
+
+.product-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+
+.product-price {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--gopay-primary);
+}
+
+.product-original {
+    font-size: 11px;
+    color: var(--text-light);
+    text-decoration: line-through;
+    margin-left: 4px;
+}
+
+/* ========================================
+   REVIEWS SECTION
+   ======================================== */
+.reviews-section {
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.reviews-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.review-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    box-shadow: var(--shadow);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.reviewer-avatar {
+    font-size: 36px;
+    color: var(--gopay-primary);
+}
+
+.reviewer-info {
+    flex: 1;
+}
+
+.reviewer-name {
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+}
+
+.review-stars {
+    color: var(--warning);
+    font-size: 12px;
+}
+
+.review-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.review-product {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--gopay-primary);
+    background: var(--gopay-light);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* ========================================
+   INFO SECTION
+   ======================================== */
+.info-section {
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.info-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.info-card:hover {
+    transform: translateY(-2px);
+}
+
+.info-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--gopay-primary), var(--bri-primary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    margin: 0 auto 10px;
+}
+
+.info-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.info-card p {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   BOTTOM NAVIGATION
+   ======================================== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+    z-index: 100;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+@media (min-width: 481px) {
+    .bottom-nav {
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .bottom-nav {
+        max-width: 768px;
+    }
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 12px;
+    transition: var(--transition);
+    flex: 1;
+}
+
+.nav-item i {
+    font-size: 20px;
+}
+
+.nav-item.active {
+    color: var(--gopay-primary);
+    background: var(--gopay-light);
+}
+
+.nav-item:hover {
+    color: var(--gopay-primary);
+}
+
+/* ========================================
+   TOAST NOTIFICATION
+   ======================================== */
+.toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--bg-dark);
+    color: white;
+    padding: 12px 24px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 400;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-lg);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast i {
+    color: var(--success);
+    font-size: 18px;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (min-width: 768px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .info-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .video-banner {
+        height: 280px;
+    }
+
+    .banner-content h2 {
+        font-size: 32px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .game-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Banner Image Support */
+.banner-bg {
+    background-size: cover !important;
+    background-position: center !important;
+    position: relative;
+}
+
+.banner-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0.2));
+    z-index: 1;
+}
+
+.banner-content {
+    position: relative;
+    z-index: 2;
+}
+
+.scroll-img {
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+.game-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

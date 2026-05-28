@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pembayaran - NusaStore</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/payment.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="main-header payment-header">
+            <div class="header-left">
+                <button class="icon-btn back-btn" onclick="history.back()"><i class="fas fa-arrow-left"></i></button>
+                <div class="logo-container">
+                    <span class="logo-name">Pembayaran</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Order Summary -->
+        <section class="order-summary">
+            <div class="summary-card">
+                <div class="summary-title"><i class="fas fa-shopping-cart"></i> Ringkasan Pesanan</div>
+                <div class="summary-item">
+                    <span class="summary-label">Produk</span>
+                    <div class="summary-value" id="productName" style="display:flex; align-items:center; gap:10px;">
+                        <div id="productImage" style="width:40px; height:40px; border-radius:10px; overflow:hidden; background:var(--bg);">
+                            <img src="" alt="" style="width:100%; height:100%; object-fit:cover;" id="productImgTag">
+                        </div>
+                        <span id="productNameText">-</span>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Harga</span>
+                    <span class="summary-value price" id="productPrice">-</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-item total">
+                    <span class="summary-label">Total Bayar</span>
+                    <span class="summary-value total-price" id="totalPrice">-</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Data Form -->
+        <section class="user-data-section">
+            <div class="section-header">
+                <h2><i class="fas fa-user"></i> Data Pembeli</h2>
+            </div>
+            <form id="paymentForm" class="data-form">
+                <div class="form-group">
+                    <label><i class="fas fa-gamepad"></i> Username / ID Game</label>
+                    <input type="text" id="gameUsername" placeholder="Masukkan username atau ID game" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-sort-numeric-up"></i> Jumlah Pembelian</label>
+                    <input type="number" id="quantity" value="1" min="1" max="10" onchange="updateTotal()">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="buyerEmail" placeholder="Email untuk notifikasi" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fab fa-whatsapp"></i> Nomor WA (Opsional)</label>
+                    <input type="tel" id="buyerPhone" placeholder="Contoh: 08123456789">
+                </div>
+            </form>
+        </section>
+
+        <!-- Payment Methods -->
+        <section class="payment-methods-section">
+            <div class="section-header">
+                <h2><i class="fas fa-credit-card"></i> Metode Pembayaran</h2>
+            </div>
+            <div class="payment-methods">
+                <div class="payment-method" onclick="selectPayment('qris')">
+                    <div class="method-radio">
+                        <div class="radio-inner" id="radio-qris"></div>
+                    </div>
+                    <div class="method-icon"><i class="fas fa-qrcode"></i></div>
+                    <div class="method-info">
+                        <h4>QRIS</h4>
+                        <p>Scan QR untuk pembayaran</p>
+                    </div>
+                    <div class="method-check"><i class="fas fa-check" id="check-qris"></i></div>
+                </div>
+                <div class="payment-method" onclick="selectPayment('transfer')">
+                    <div class="method-radio">
+                        <div class="radio-inner" id="radio-transfer"></div>
+                    </div>
+                    <div class="method-icon"><i class="fas fa-university"></i></div>
+                    <div class="method-info">
+                        <h4>Transfer Bank</h4>
+                        <p>BRI, BCA, Mandiri, BNI</p>
+                    </div>
+                    <div class="method-check"><i class="fas fa-check" id="check-transfer"></i></div>
+                </div>
+                <div class="payment-method" onclick="selectPayment('ewallet')">
+                    <div class="method-radio">
+                        <div class="radio-inner" id="radio-ewallet"></div>
+                    </div>
+                    <div class="method-icon"><i class="fas fa-wallet"></i></div>
+                    <div class="method-info">
+                        <h4>E-Wallet</h4>
+                        <p>Dana, GoPay, OVO, ShopeePay</p>
+                    </div>
+                    <div class="method-check"><i class="fas fa-check" id="check-ewallet"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pay Button -->
+        <section class="pay-section">
+            <button class="pay-btn" id="payBtn" onclick="processPayment()" disabled>
+                <i class="fas fa-lock"></i> Bayar Sekarang
+            </button>
+            <p class="pay-note"><i class="fas fa-shield-alt"></i> Pembayaran aman & terenkripsi</p>
+        </section>
+
+        <!-- Bottom Spacer -->
+        <div style="height: 40px;"></div>
+
+        <!-- Toast -->
+        <div id="toast" class="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMsg">Berhasil!</span>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        let selectedPayment = null;
+        let currentProduct = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProduct();
+            fillUserData();
+        });
+
+        function loadProduct() {
+            const productData = localStorage.getItem('nusa_selected_product');
+            if (!productData) {
+                showToast('Produk tidak ditemukan');
+                setTimeout(() => history.back(), 1500);
+                return;
+            }
+
+            currentProduct = JSON.parse(productData);
+            document.getElementById('productNameText').textContent = currentProduct.name;
+
+            // Set product image
+            const imgTag = document.getElementById('productImgTag');
+            if (currentProduct.image) {
+                imgTag.src = currentProduct.image;
+                imgTag.onerror = function() {
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<i class="fas ' + (currentProduct.icon || 'fa-shopping-bag') + '" style="font-size:20px; color:var(--gopay-primary); display:flex; align-items:center; justify-content:center; width:100%; height:100%;"></i>';
+                };
+            }
+
+            document.getElementById('productPrice').textContent = 'Rp ' + formatPrice(currentProduct.price);
+            updateTotal();
+        }
+
+        function fillUserData() {
+            const user = AUTH.getUser();
+            if (user) {
+                document.getElementById('buyerEmail').value = user.email || '';
+                document.getElementById('buyerPhone').value = user.phone || '';
+            }
+        }
+
+        function updateTotal() {
+            if (!currentProduct) return;
+            const qty = parseInt(document.getElementById('quantity').value) || 1;
+            const total = currentProduct.price * qty;
+            document.getElementById('totalPrice').textContent = 'Rp ' + formatPrice(total);
+        }
+
+        function selectPayment(method) {
+            selectedPayment = method;
+
+            // Reset all
+            document.querySelectorAll('.radio-inner').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.method-check i').forEach(el => el.style.opacity = '0');
+            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
+
+            // Set active
+            document.getElementById('radio-' + method).classList.add('active');
+            document.getElementById('check-' + method).style.opacity = '1';
+            document.querySelectorAll('.payment-method')[method === 'qris' ? 0 : method === 'transfer' ? 1 : 2].classList.add('selected');
+
+            document.getElementById('payBtn').disabled = false;
+        }
+
+        function processPayment() {
+            const username = document.getElementById('gameUsername').value;
+            const email = document.getElementById('buyerEmail').value;
+            const qty = parseInt(document.getElementById('quantity').value) || 1;
+
+            if (!username) {
+                showToast('Masukkan username/ID game!');
+                return;
+            }
+            if (!email) {
+                showToast('Masukkan email!');
+                return;
+            }
+            if (!selectedPayment) {
+                showToast('Pilih metode pembayaran!');
+                return;
+            }
+
+            const total = currentProduct.price * qty;
+
+            // Save order data
+            const orderData = {
+                product: currentProduct,
+                username: username,
+                email: email,
+                phone: document.getElementById('buyerPhone').value,
+                quantity: qty,
+                total: total,
+                paymentMethod: selectedPayment,
+                timestamp: new Date().toISOString()
+            };
+
+            localStorage.setItem('nusa_current_order', JSON.stringify(orderData));
+
+            if (selectedPayment === 'qris') {
+                window.location.href = 'qris.html';
+            } else {
+                showToast('Metode ini akan diarahkan ke QRIS');
+                setTimeout(() => {
+                    window.location.href = 'qris.html';
+                }, 1500);
+            }
+        }
+    </script>
+</body>
+</html>

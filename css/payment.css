@@ -1,0 +1,276 @@
+/* ========================================
+   PAYMENT PAGE STYLES
+   ======================================== */
+
+.payment-header {
+    background: linear-gradient(135deg, #00AED6 0%, #6B2D8E 100%) !important;
+}
+
+/* Order Summary */
+.order-summary {
+    padding: 16px;
+}
+
+.summary-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.summary-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.summary-title i {
+    color: var(--gopay-primary);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.summary-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.summary-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.summary-value.price {
+    color: var(--gopay-primary);
+    font-weight: 700;
+}
+
+.summary-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 12px 0;
+}
+
+.summary-item.total {
+    padding-top: 4px;
+}
+
+.summary-item.total .summary-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.summary-value.total-price {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--gopay-primary);
+}
+
+/* User Data Form */
+.user-data-section {
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.data-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.data-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.data-form .form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.data-form .form-group label i {
+    color: var(--gopay-primary);
+    font-size: 14px;
+}
+
+.data-form .form-group input {
+    padding: 14px 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--text-primary);
+    transition: var(--transition);
+    background: white;
+}
+
+.data-form .form-group input:focus {
+    outline: none;
+    border-color: var(--gopay-primary);
+    box-shadow: 0 0 0 4px rgba(0, 174, 214, 0.1);
+}
+
+/* Payment Methods */
+.payment-methods-section {
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-method {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.payment-method:hover {
+    border-color: var(--gopay-primary);
+    transform: translateX(4px);
+}
+
+.payment-method.selected {
+    border-color: var(--gopay-primary);
+    background: var(--gopay-light);
+}
+
+.method-radio {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: var(--transition);
+}
+
+.payment-method.selected .method-radio {
+    border-color: var(--gopay-primary);
+}
+
+.radio-inner {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--gopay-primary);
+    transform: scale(0);
+    transition: var(--transition);
+}
+
+.radio-inner.active {
+    transform: scale(1);
+}
+
+.method-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--gopay-light), var(--dana-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gopay-primary);
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.method-info {
+    flex: 1;
+}
+
+.method-info h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.method-info p {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.method-check i {
+    color: var(--success);
+    font-size: 18px;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+/* Pay Button */
+.pay-section {
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.pay-btn {
+    width: 100%;
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    border: none;
+    background: linear-gradient(135deg, var(--gopay-primary), var(--dana-primary));
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0, 174, 214, 0.3);
+}
+
+.pay-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 174, 214, 0.4);
+}
+
+.pay-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pay-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.pay-note i {
+    color: var(--success);
+}

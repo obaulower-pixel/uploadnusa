@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NusaStore - Top Up Game Terpercaya</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+        .game-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+        }
+        .banner-bg {
+            background-size: cover !important;
+            background-position: center !important;
+        }
+        .scroll-img {
+            background-size: cover !important;
+            background-position: center !important;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-left">
+                <div class="logo-container">
+                    <img src="nusa2.png" alt="NusaStore" class="logo-img" onerror="this.style.display='none'; document.getElementById('logo-text').style.display='flex'">
+                    <div id="logo-text" class="logo-text" style="display:none">
+                        <div class="logo-icon"><i class="fas fa-store"></i></div>
+                        <span class="logo-name">NusaStore</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn search-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
+                <button class="icon-btn notif-btn" onclick="goToPage('pages/notification.html')"><i class="fas fa-bell"></i><span class="badge">3</span></button>
+                <button class="icon-btn menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+            </div>
+        </header>
+
+        <!-- Search Overlay -->
+        <div id="searchOverlay" class="search-overlay">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Cari game atau produk..." onkeyup="searchProducts()">
+                <button onclick="closeSearch()"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="searchResults" class="search-results"></div>
+        </div>
+
+        <!-- Side Menu -->
+        <div id="sideMenu" class="side-menu">
+            <div class="menu-header">
+                <div class="user-info" id="menuUserInfo">
+                    <div class="user-avatar"><i class="fas fa-user"></i></div>
+                    <div class="user-details">
+                        <span class="user-name">Guest</span>
+                        <span class="user-status">Belum login</span>
+                    </div>
+                </div>
+                <button class="close-menu" onclick="toggleMenu()"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="menu-nav">
+                <a href="index.html" class="menu-item active"><i class="fas fa-home"></i> Beranda</a>
+                <a href="pages/history.html" class="menu-item"><i class="fas fa-history"></i> Riwayat Transaksi</a>
+                <a href="pages/notification.html" class="menu-item"><i class="fas fa-bell"></i> Notifikasi <span id="menuNotifBadge" class="menu-badge" style="display:none">0</span></a>
+                <a href="pages/login.html" class="menu-item" id="menuLogin"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="#" class="menu-item" id="menuLogout" style="display:none" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <div class="menu-divider"></div>
+                <a href="pages/owner.html" class="menu-item owner-only" style="display:none"><i class="fas fa-shield-alt"></i> Panel Owner</a>
+                <div class="menu-divider"></div>
+                <a href="#" class="menu-item"><i class="fas fa-headset"></i> Bantuan</a>
+                <a href="#" class="menu-item"><i class="fas fa-info-circle"></i> Tentang Kami</a>
+            </nav>
+        </div>
+        <div id="menuOverlay" class="menu-overlay" onclick="toggleMenu()"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Video Banner -->
+            <section class="video-banner-section">
+                <div class="video-banner">
+                    <div class="banner-slide active">
+                        <div class="banner-bg banner-1" id="homeBanner1">
+                            <div class="banner-content">
+                                <span class="banner-tag">TERPOPULER</span>
+                                <h2>Top Up Robux</h2>
+                                <p>Harga termurah se-Indonesia</p>
+                                <button class="banner-btn" onclick="goToPage('pages/roblox.html')">Beli Sekarang</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <div class="banner-bg banner-2" id="homeBanner2">
+                            <div class="banner-content">
+                                <span class="banner-tag">PROMO</span>
+                                <h2>Diamond Free Fire</h2>
+                                <p>Bonus 20% setiap pembelian</p>
+                                <button class="banner-btn" onclick="goToPage('pages/freefire.html')">Beli Sekarang</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <div class="banner-bg banner-3" id="homeBanner3">
+                            <div class="banner-content">
+                                <span class="banner-tag">FLASH SALE</span>
+                                <h2>WDP Mobile Legends</h2>
+                                <p>Weekly Diamond Pass Murah</p>
+                                <button class="banner-btn" onclick="goToPage('pages/mobilelegends.html')">Beli Sekarang</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner-dots">
+                        <span class="dot active" onclick="setBanner(0)"></span>
+                        <span class="dot" onclick="setBanner(1)"></span>
+                        <span class="dot" onclick="setBanner(2)"></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Stats -->
+            <section class="quick-stats">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value">Proses Cepat</span>
+                        <span class="stat-label">1-5 Menit</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value">100% Aman</span>
+                        <span class="stat-label">Legal & Terpercaya</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-headset"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value">24/7 Support</span>
+                        <span class="stat-label">Siap Membantu</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Game List -->
+            <section class="game-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-gamepad"></i> Pilih Game</h2>
+                    <a href="#" class="view-all">Lihat Semua <i class="fas fa-chevron-right"></i></a>
+                </div>
+                <div class="game-grid">
+                    <div class="game-card" onclick="goToPage('pages/roblox.html')">
+                        <div class="game-icon roblox-bg">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <div class="game-info">
+                            <h3>Roblox</h3>
+                            <p>Robux, Grow a Garden, USN</p>
+                            <span class="game-badge">Hot</span>
+                        </div>
+                        <i class="fas fa-chevron-right game-arrow"></i>
+                    </div>
+                    <div class="game-card" onclick="goToPage('pages/freefire.html')">
+                        <div class="game-icon ff-bg">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="game-info">
+                            <h3>Free Fire</h3>
+                            <p>Diamond, WDP, Membership</p>
+                            <span class="game-badge">Promo</span>
+                        </div>
+                        <i class="fas fa-chevron-right game-arrow"></i>
+                    </div>
+                    <div class="game-card" onclick="goToPage('pages/mobilelegends.html')">
+                        <div class="game-icon ml-bg">
+                            <i class="fas fa-chess-knight"></i>
+                        </div>
+                        <div class="game-info">
+                            <h3>Mobile Legends</h3>
+                            <p>Diamond, WDP, Starlight</p>
+                            <span class="game-badge">Best</span>
+                        </div>
+                        <i class="fas fa-chevron-right game-arrow"></i>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Scrollable Image Banners -->
+            <section class="scroll-banner-section">
+                <div class="scroll-banner-container">
+                    <div class="scroll-banner-track" id="scrollBanner">
+                        <div class="scroll-banner-item">
+                            <div class="scroll-img banner-img-1">
+                                <div class="scroll-overlay">
+                                    <h3>Event Spesial</h3>
+                                    <p>Dapatkan diskon hingga 50%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="scroll-banner-item">
+                            <div class="scroll-img banner-img-2">
+                                <div class="scroll-overlay">
+                                    <h3>Cashback</h3>
+                                    <p>Cashback 10% untuk member</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="scroll-banner-item">
+                            <div class="scroll-img banner-img-3">
+                                <div class="scroll-overlay">
+                                    <h3>Gratis Ongkir</h3>
+                                    <p>Tanpa biaya tambahan</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-indicators">
+                    <span class="scroll-dot active"></span>
+                    <span class="scroll-dot"></span>
+                    <span class="scroll-dot"></span>
+                </div>
+            </section>
+
+            <!-- Popular Products -->
+            <section class="products-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-fire-alt"></i> Produk Populer</h2>
+                </div>
+                <div class="products-grid" id="popularProducts">
+                    <!-- Filled by JS -->
+                </div>
+            </section>
+
+            <!-- Customer Reviews -->
+            <section class="reviews-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-comments"></i> Ulasan Pelanggan</h2>
+                </div>
+                <div class="reviews-container">
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-avatar"><i class="fas fa-user-circle"></i></div>
+                            <div class="reviewer-info">
+                                <span class="reviewer-name">julie sean</span>
+                                <div class="review-stars">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="review-text">"rekomendasi store thebest sih"</p>
+                        <span class="review-product"><i class="fas fa-cube"></i> gacha akun</span>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-avatar"><i class="fas fa-user-circle"></i></div>
+                            <div class="reviewer-info">
+                                <span class="reviewer-name">bahlilul</span>
+                                <div class="review-stars">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="review-text">"gelo rekomendasi sih nusastore iji mantap dri segi harga dan kualitas😋🔥"</p>
+                        <span class="review-product"><i class="fas fa-fire"></i> robux 5000</span>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-avatar"><i class="fas fa-user-circle"></i></div>
+                            <div class="reviewer-info">
+                                <span class="reviewer-name">aldo gtps</span>
+                                <div class="review-stars">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="review-text">"gila sih cpt bet msuknya anjir🗿"</p>
+                        <span class="review-product"><i class="fas fa-chess-knight"></i> Robux 100</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Information Footer -->
+            <section class="info-section">
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-icon"><i class="fas fa-globe"></i></div>
+                        <h4>situs Resmi</h4>
+                        <p>www.nusastore.id</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                        <h4> Support</h4>
+                        <p>support@nusastore.id</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+                        <h4>WhatsApp</h4>
+                        <p>+6281995212380</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon"><i class="fas fa-clock"></i></div>
+                        <h4>Jam Operasional</h4>
+                        <p>24 Jam Nonstop</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="pages/roblox.html" class="nav-item">
+                <i class="fas fa-cube"></i>
+                <span>Roblox</span>
+            </a>
+            <a href="pages/freefire.html" class="nav-item">
+                <i class="fas fa-fire"></i>
+                <span>Free Fire</span>
+            </a>
+            <a href="pages/mobilelegends.html" class="nav-item">
+                <i class="fas fa-chess-knight"></i>
+                <span>MLBB</span>
+            </a>
+            <a href="pages/history.html" class="nav-item">
+                <i class="fas fa-history"></i>
+                <span>Riwayat</span>
+            </a>
+        </nav>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMsg">Berhasil!</span>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
